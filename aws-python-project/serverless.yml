@@ -13,15 +13,15 @@ functions:
     handler: handler.hello
     events:
       - snsSqs:
-          name: TestEventDev # Required - choose a name prefix for the event queue
-          topicArn: !Ref Topic # Required - SNS topic to subscribe to
+          name: TestEventDev
+          topicArn: !Ref Topic
 
   helloprod:
     handler: handler.hello
     events:
       - snsSqs:
-          name: TestEventProd # Required - choose a name prefix for the event queue
-          topicArn: !Ref Topic # Required - SNS topic to subscribe to
+          name: TestEventProd 
+          topicArn: !Ref Topic
 
 
 resources:
