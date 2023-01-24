@@ -9,12 +9,20 @@ provider:
   runtime: python3.8
 
 functions:
-  hello:
+  hellodev:
     handler: handler.hello
     events:
-          - snsSqs:
-              name: TestEvent # Required - choose a name prefix for the event queue
-              topicArn: !Ref Topic # Required - SNS topic to subscribe to
+      - snsSqs:
+          name: TestEventDev # Required - choose a name prefix for the event queue
+          topicArn: !Ref Topic # Required - SNS topic to subscribe to
+
+  helloprod:
+    handler: handler.hello
+    events:
+      - snsSqs:
+          name: TestEventProd # Required - choose a name prefix for the event queue
+          topicArn: !Ref Topic # Required - SNS topic to subscribe to
+
 
 resources:
   Resources:
