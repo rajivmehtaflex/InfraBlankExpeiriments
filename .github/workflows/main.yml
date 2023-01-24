@@ -1,0 +1,27 @@
+name: aws deployment process
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+
+env:
+ ENVIRONMENT: ${{ github.event.inputs.environment }}
+
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    environment: 
+          name: ${{ github.event.inputs.environment }}    
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.8' 
+
+      - name: check the environment
+        run: | 
+          echo "choice is ${{ github.event.inputs.environment }}" / ${{ inputs.environment }}
