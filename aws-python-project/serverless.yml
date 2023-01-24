@@ -1,0 +1,27 @@
+org: rajivmehtaflex
+app: gsqswithpython
+service: aws-python-project
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+          - snsSqs:
+              name: TestEvent # Required - choose a name prefix for the event queue
+              topicArn: !Ref Topic # Required - SNS topic to subscribe to
+
+resources:
+  Resources:
+    Topic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: GajrajTopic
+ 
+plugins:
+  - "@agiledigital/serverless-sns-sqs-lambda"
