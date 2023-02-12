@@ -1,0 +1,45 @@
+version: 1
+default_environment: dev
+project_id: 6210ecc5-22eb-4fa5-ba47-f7035c2bd57d
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-shopify
+    variant: singer-io
+    pip_url: tap-shopify
+    config:
+      shop: prescient-test-store
+      start_date: '2022-12-01'
+    select:
+    # - events.*
+    # - transactions.*
+    # - order_refunds.*
+    # - metafields.*
+    # - locations.*
+    # - custom_collections.*
+    # - collects.*
+    # - customers.*
+    # - products.*
+    # - inventory_items.*
+    - orders.*
+
+  loaders:
+  - name: target-snowflake
+    variant: transferwise
+    pip_url: pipelinewise-target-snowflake
+    config:
+      account: mza63044.us-east-1
+      dbname: MELTANO
+      user: PRESCIENTRAJIV
+      warehouse: PRESCIENT_WH
+      file_format: MELTANO.PRESCIENT__SHOPIFY__SHOPIFY__PRESCIENT.GFILE
+      role: ppw_target_snowflake
+      s3_bucket: meltanodatastorageprescientaiio
+      stage: MELTANO.PRESCIENT__SHOPIFY__SHOPIFY__PRESCIENT.DEVSTAGE
+
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
