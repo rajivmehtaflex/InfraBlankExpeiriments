@@ -1,0 +1,19 @@
+version: 1
+default_environment: dev
+project_id: a240ddaf-6f37-45dd-9db5-d10372c6d4ad
+environments:
+- name: dev
+plugins:
+  extractors:
+      - name: tap-postgres--billing
+        inherit_from: tap-postgres
+        config:
+          host: one.postgres.example.com
+          user: billing_user
+          dbname: billing_db
+      - name: tap-postgres--events
+        inherit_from: tap-postgres
+        config:
+          host: two.postgres.example.com
+          user: events_user
+          dbname: events_db
