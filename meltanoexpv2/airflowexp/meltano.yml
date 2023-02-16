@@ -10,7 +10,34 @@ plugins:
   - name: tap-csv
     variant: meltanolabs
     pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+    config:
+      files:
+      - entity: customers
+        path: data/customers.csv
+        keys: [id]
+      - entity: orders
+        path: data/orders.csv
+        keys: [id]
+      - entity: payments
+        path: data/payments.csv
+        keys: [id]
   loaders:
   - name: target-jsonl
     variant: andyh1203
     pip_url: target-jsonl
+  orchestrators:
+  - name: airflow
+    variant: apache
+    pip_url: apache-airflow==2.1.2 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.1.2/constraints-${MELTANO__PYTHON_VERSION}.txt
+  files:
+  - name: files-airflow
+    variant: meltano
+    pip_url: git+https://github.com/meltano/files-airflow.git
+jobs:
+- name: tap-csv-to-target-jsonl
+  tasks:
+  - tap-csv target-jsonl
+schedules:
+- name: daily-csv-load
+  interval: '@daily'
+  job: tap-csv-to-target-jsonl
